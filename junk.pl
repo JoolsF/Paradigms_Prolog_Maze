@@ -1,1 +1,1 @@
-[Head|Tail] = [1,2,3].
+concatenate([Head|[]], List, [Head|List]).

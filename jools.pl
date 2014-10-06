@@ -6,4 +6,4 @@ interest(david,music).
 interest(jools, music).
 interest(linda,music).
 
-friend(jools,X) :- interest(X,music), \+(jools=X).
+friend(X,Y) :- interest(X,Z), interest(Y,Z), \+ (X=Y).
