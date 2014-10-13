@@ -25,7 +25,9 @@ friends(X,Y) :-
 	follows(X,Y),
 	follows(Y,X).
 
-/* retweets(fred, What).*/
+/* retweets(fred, What).
+needs works as it needs to eliminate mutual friends.
+*/
 
 retweets_visible(X,Y) :-
 	follows(X,Z),
