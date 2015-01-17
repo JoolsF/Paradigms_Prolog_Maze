@@ -16,13 +16,13 @@ moveup([From|TFrom],[HTo|TTo],[[From|TFrom] |Result]) :-
 
 /* move along y coordinates */
 
-movedown([A,B],[A,_],[A,B]).
+movedown([A,B],[A,_],[[A,B]]).
 movedown( [StartY,StartX], [EndY,_], [[StartY,StartX] | Result] ) :-
 		StartY < EndY,
 		CurrentY is StartY + 1,
 		movedown([CurrentY,StartX], [EndY,_],Result).
 
-moveup([A,B],[A,_],[A,B]).
+moveup([A,B],[A,_],[[A,B]]).
 moveup( [StartY,StartX], [EndY,_], [[StartY,StartX] | Result] ) :-
 		StartY > EndY,
 		CurrentY is StartY - 1,
@@ -30,15 +30,16 @@ moveup( [StartY,StartX], [EndY,_], [[StartY,StartX] | Result] ) :-
 
 /* move along x coordinates*/
 
-moveleft([A,B],[_,B],[A,B]).
+moveleft([A,B],[_,B],[[A,B]]).
 moveleft( [StartY,StartX], [_,EndX], [[StartY,StartX] | Result] ) :-
 		StartX > EndX,
 		CurrentX is StartX - 1,
 		moveleft([StartY,CurrentX], [_,EndX],Result).
 
 
-moveright([A,B],[_,B],[A,B]).
+moveright([A,B],[_,B],[[A,B]]).
 moveright( [StartY,StartX], [_,EndX], [[StartY,StartX] | Result] ) :-
+
 		StartX < EndX,
 		CurrentX is StartX + 1,
 		moveright([StartY,CurrentX], [_,EndX],Result).

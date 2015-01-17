@@ -16,14 +16,19 @@ L = (1,2,3,4,5).
 implementation example
 
 jnumlist(A, A, [A]).
-jnumlist(From, To, [From | FromTo]) :- 
-	From =< To, 
-	From1 is From+1, 
+jnumlist(From, To, [From | FromTo]) :-
+	From =< To,
+	From1 is From+1,
 	jnumlist(From1, To, FromTo).
 
 
 */
 
+movedown([A,B],[A,_],[A,B]).
+movedown( [StartY,StartX], [EndY,EndX], [[StartY,StartX] | Result] ) :-
+	        StartY < EndY,
+		CurrentY is StartY + 1,
+		movedown([CurrentY,StartX], [EndY,_],Result).
 
 
 
