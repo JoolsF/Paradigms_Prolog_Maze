@@ -2,6 +2,12 @@
 
 /*solve(X,Y,Path) :-
 	makeList(X,Y,Path).
+makeList(A, A, [A]).
+makeList(From, To, [From | Result]) :-
+	From =< To,
+	FromTemp is From + 1,
+	makeList(FromTemp, To, Result).
+
 
 */
 
@@ -16,10 +22,3 @@ makeList2([From|TFrom],[HTo|TTo],[[From|TFrom] |Result]) :-
 
 
 
-/*
-makeList(A, A, [A]).
-makeList(From, To, [From | Result]) :-
-	From =< To,
-	FromTemp is From + 1,
-	makeList(FromTemp, To, Result).
-*/
