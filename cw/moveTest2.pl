@@ -14,20 +14,25 @@ barrier(4, 9).
 barrier(5, 2).
 
 
-% wall([Y, X]) :- barrier(Y,X), !.
-
-
-/* move along y coordinates */
-
+/*
+barrier base case
 movedown([A,B], _, [[A1,B]]) :-
 	barrier(A,B),
 	A1 is A - 1,
 	!.
+*/
+
+/* move along y coordinates */
+
 
 
 movedown([A,B],[A,_],[[A,B]]) :- !.
+
+movedown([A,B],_,[[A,B]]) :- Y is A + 1, barrier(Y,B),!.
+
+
 movedown( [Y,X], [EndY,_], [[Y,X] | Result] ) :-
-	        Y < EndY,
+		Y < EndY,
 		CurrentY is Y + 1,
 		movedown([CurrentY,X], [EndY,_],Result).
 
