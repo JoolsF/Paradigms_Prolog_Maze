@@ -29,22 +29,15 @@ findValidMove((Y, X),(NextY,NextX)) :-
 	insidemaze(NextY,NextX).
 
 move((Y,X),(NextY,X)) :-
-	NextY is Y + 1 ; NextY is Y - 1.
+	NextY is Y + 1.
+move((Y,X),(NextY,X)) :-
+	NextY is Y - 1.
 move((Y,X),(Y, NextX)) :-
-	NextX is X + 1 ; NextX is X - 1.
+	NextX is X + 1.
+move((Y,X),(Y, NextX)) :-
+	NextX is X - 1.
 
-solve(To,To,_) :- !.
-solve(From,To,[From|Result]) :-
+solve(To,To,[To]) :- !.
+solve(From, To, [From|Result] ) :-
   findValidMove(From, FromNext),
   solve(FromNext,To,Result).
-
-
-/*
-solve(To,To,_).
-solve(From,To,Path) :-
-	findValidMove(From, To),
-	solve(To, , append([From],[To],Path)).
-
-%	solve(NextPosition, To, [From,NextPosition] ).
-
-*/
