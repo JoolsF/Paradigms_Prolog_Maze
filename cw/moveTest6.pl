@@ -17,6 +17,8 @@ barrier(5, 2).
 semi-working however getting "false" for some things eg
 solve((1,1),(1,9),P))
 solve((5,1),(5,3),P))
+
+'robot' not moving back on itself in certain scenarios.
 */
 
 
@@ -62,8 +64,6 @@ moveRight((Y,X),(Y, NextX)) :-
 	NextX is X + 1.
 moveLeft((Y,X),(Y, NextX)) :-
 	NextX is X - 1.
-
-% solve(FromNext,To,Result) :- \+ memberchk(FromNext,Result).
 
 solve(To,To,[To]) :- !.
 solve(From, To, [From|Result] ) :-
