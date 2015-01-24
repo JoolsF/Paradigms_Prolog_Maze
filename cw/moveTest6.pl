@@ -13,6 +13,11 @@ barrier(4, 8).
 barrier(4, 9).
 barrier(5, 2).
 
+/*
+semi-working however getting "false" for some things eg
+solve((1,1),(1,9),P))
+solve((5,1),(5,3),P))
+*/
 
 
 insidemaze(Y,X) :-
@@ -23,24 +28,25 @@ insidemaze(Y,X) :-
 	\+ X < 1.
 
 
-findValidMove((Y, X),(YTo,XTo),(NextY,NextX)) :-
+findValidMove((Y, X),(YTo,_),(NextY,NextX)) :-
 	Y < YTo,
 	moveDown((Y,X),(NextY,NextX)),
 	\+ barrier(NextY,NextX),
 	insidemaze(NextY,NextX).
 
-findValidMove((Y, X),(YTo,XTo),(NextY,NextX)) :-
+findValidMove((Y, X),(YTo,_),(NextY,NextX)) :-
 	Y > YTo,
 	moveUp((Y,X),(NextY,NextX)),
 	\+ barrier(NextY,NextX),
 	insidemaze(NextY,NextX).
-findValidMove((Y, X),(YTo,XTo),(NextY,NextX)) :-
+
+findValidMove((Y, X),(_,XTo),(NextY,NextX)) :-
 	X < XTo,
 	moveRight((Y,X),(NextY,NextX)),
 	\+ barrier(NextY,NextX),
 	insidemaze(NextY,NextX).
 
-findValidMove((Y, X),(YTo,XTo),(NextY,NextX)) :-
+findValidMove((Y, X),(_,XTo),(NextY,NextX)) :-
 	X > XTo,
 	moveLeft((Y,X),(NextY,NextX)),
 	\+ barrier(NextY,NextX),
