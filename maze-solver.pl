@@ -15,8 +15,8 @@ barrier(5, 2).
 
 /*
 semi-working however getting "false" for some things eg
-solve((1,1),(1,9),P))
-solve((5,1),(5,3),P))
+solve((1,1),(1,9),P)
+solve((5,1),(5,3),P)
 
 'robot' not moving back on itself in certain scenarios.
 */
@@ -65,21 +65,27 @@ moveRight((Y,X),(Y, NextX)) :-
 moveLeft((Y,X),(Y, NextX)) :-
 	NextX is X - 1.
 
-solve(To,To,[To]) :- !.
-solve(From, To, [From|Result] ) :-
+
+
+solve(From,To,Path) :-
+	findPath(From,To,Path),
+	printMaze(Path).
+
+
+findPath(To,To,[To]) :- !.
+findPath(From, To, [From|Result] ) :-
   findValidMove(From,To, FromNext),
-  solve(FromNext,To,Result).
+  findPath(FromNext,To,Result).
 
 
-/*
-MATRIX PRINTER
-*/
 
-printMaze :-
+
+/* PRINT GRID */
+
+printMaze(Path) :-
 	printTop,
-	printRows(1,1),
+	printRows(1,1,Path),
 	printBottom.
-
 
 printTop :-
 	write('  1 2 3 4 5 6 7 8 9 ') , nl ,
@@ -89,35 +95,34 @@ printBottom :-
 
 
 
-printRows(Row,_) :-
+printRows(Row,_,_) :-
 	Row = 6,
 	!.
-printRows(Row,Col) :-
+printRows(Row,Col,Path) :-
 	write(Row),
 	write('|'),
-	printLine(Row,Col),
+	printLine(Row,Col,Path),
 	write('|'),nl,
 	NextRow is Row + 1,
-	printRows(NextRow,Col).
+	printRows(NextRow,Col,Path).
 
 
 
-printLine(_,Col) :-
+printLine(_,Col,_) :-
 	Col = 10, !.
-printLine(Row,Col) :-
-	printElement(Row,Col),
+printLine(Row,Col,Path) :-
+	printElement(Row,Col,Path),
 	NextCol is Col + 1,
-	printLine(Row,NextCol).
+	printLine(Row,NextCol,Path).
 
 
+printElement(Row,Col,Path) :-
+	member((Row,Col),Path),
+	write('* ').
 
-printElement(Row,Col) :-
+printElement(Row,Col,_) :-
 	barrier(Row,Col),
 	write('X ').
-printElement(Row,Col) :-
+printElement(Row,Col,_) :-
 	\+ barrier(Row,Col),
 	write('. ').
-
-
-
-
