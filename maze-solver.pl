@@ -69,3 +69,55 @@ solve(To,To,[To]) :- !.
 solve(From, To, [From|Result] ) :-
   findValidMove(From,To, FromNext),
   solve(FromNext,To,Result).
+
+
+/*
+MATRIX PRINTER
+*/
+
+printMaze :-
+	printTop,
+	printRows(1,1),
+	printBottom.
+
+
+printTop :-
+	write('  1 2 3 4 5 6 7 8 9 ') , nl ,
+	write('  +-----------------+') , nl .
+printBottom :-
+	write('  +-----------------+').
+
+
+
+printRows(Row,_) :-
+	Row = 6,
+	!.
+printRows(Row,Col) :-
+	write(Row),
+	write('|'),
+	printLine(Row,Col),
+	write('|'),nl,
+	NextRow is Row + 1,
+	printRows(NextRow,Col).
+
+
+
+printLine(_,Col) :-
+	Col = 10, !.
+printLine(Row,Col) :-
+	printElement(Row,Col),
+	NextCol is Col + 1,
+	printLine(Row,NextCol).
+
+
+
+printElement(Row,Col) :-
+	barrier(Row,Col),
+	write('X ').
+printElement(Row,Col) :-
+	\+ barrier(Row,Col),
+	write('. ').
+
+
+
+
