@@ -51,63 +51,54 @@ insidemaze(Y,X) :-
 	\+ X > X1,
 	\+ X < 1.
 
-
-
-findValidMove((Y, X),(YTo,_),(NextY,NextX),PathSoFar) :-
-	% Y < YTo,
-	moveDown((Y,X),(NextY,NextX)),
+findValidMove([Y, X],[YTo,_],_,[NextY,NextX]) :-
+%	Y < YTo,
+	moveDown([Y,X],[NextY,NextX]),
 	\+ barrier(NextY,NextX),
-	\+ member((NextY,NextX),PathSoFar),
 	insidemaze(NextY,NextX).
 
-findValidMove((Y, X),(YTo,_),(NextY,NextX),PathSoFar) :-
-	% Y > YTo,
-	moveUp((Y,X),(NextY,NextX)),
-	\+ barrier(NextY,NextX)	,
-	\+ member((NextY,NextX),PathSoFar),
-
+findValidMove([Y, X],[YTo,_],_,[NextY,NextX]) :-
+%	Y > YTo,
+	moveUp([Y,X],[NextY,NextX]),
+	\+ barrier(NextY,NextX),
 	insidemaze(NextY,NextX).
 
-findValidMove((Y, X),(_,XTo),(NextY,NextX),PathSoFar) :-
+findValidMove([Y, X],[_,XTo],_,[NextY,NextX]) :-
 %	X < XTo,
-	moveRight((Y,X),(NextY,NextX)),
+	moveRight([Y,X],[NextY,NextX]),
 	\+ barrier(NextY,NextX),
-	\+ member((NextY,NextX),PathSoFar),
-
 	insidemaze(NextY,NextX).
 
-findValidMove((Y, X),(_,XTo),(NextY,NextX),PathSoFar) :-
+findValidMove([Y, X],[_,XTo],_,[NextY,NextX]) :-
 %	X > XTo,
-	moveLeft((Y,X),(NextY,NextX)),
+	moveLeft([Y,X],[NextY,NextX]),
 	\+ barrier(NextY,NextX),
-	\+ member((NextY,NextX),PathSoFar),
 	insidemaze(NextY,NextX).
 
 
 
 
-moveDown((Y,X),(NextY,X)) :-
+moveDown([Y,X],[NextY,X]) :-
 	NextY is Y + 1.
-moveUp((Y,X),(NextY,X)) :-
+moveUp([Y,X],[NextY,X]) :-
 	NextY is Y - 1.
-moveRight((Y,X),(Y, NextX)) :-
+moveRight([Y,X],[Y, NextX]) :-
 	NextX is X + 1.
-moveLeft((Y,X),(Y, NextX)) :-
+moveLeft([Y,X],[Y, NextX]) :-
 	NextX is X - 1.
 
 
 
 
 solve(From,To,Path) :-
-	findPath(From,To,Path),
-	printMaze(Path).
+	findPath(From,To,[],Path),
+	printMaze(Path), !.
 
-findPath(To,To,[To]) :- !.
-findPath(From, To, [From|Result] ) :-
-  write([From]),
-  findValidMove(From,To, FromNext,From),
-  findPath(FromNext,To,Result).
-
+findPath(To,To,_,[To]) :- !.
+findPath(From, To, ListSoFar,[From|Result] ) :-
+  findValidMove(From,To,ListSoFar,FromNext),
+ \+ member(FromNext,ListSoFar),
+  findPath(FromNext,To,[FromNext|ListSoFar],Result).
 
 
 
@@ -150,7 +141,7 @@ printLine(Row,Col,Path) :-
 
 
 printElement(Row,Col,Path) :-
-	member((Row,Col),Path),
+	member([Row,Col],Path),
 	write('* ').
 printElement(Row,Col,_) :-
 	barrier(Row,Col),
@@ -158,3 +149,14 @@ printElement(Row,Col,_) :-
 printElement(Row,Col,_) :-
 	\+ barrier(Row,Col),
 	write('. ').
+
+
+
+
+
+
+
+
+
+
+

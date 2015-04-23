@@ -94,7 +94,7 @@ moveLeft((Y,X),(Y, NextX)) :-
 
 solve(From,To,Path) :-
 	findPath(From,To,Path),
-	printMaze(Path).
+	printMaze(Path), !.
 
 findPath(To,To,[To]) :- !.
 findPath(From, To, [From|Result] ) :-
